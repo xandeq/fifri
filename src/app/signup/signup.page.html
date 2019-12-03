@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>signup</ion-title>
+    <ion-title>Cadastro</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,7 +9,7 @@
     <ion-icon class="auth-icon" name="person-add" color="primary"></ion-icon>
   </h1>
 
-  <form (ngSubmit)="onSubmit()">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
     <ion-item>
       <ion-icon name="person" item-left></ion-icon>
       <ion-input type="text" placeholder="Nome" formControlName="name"></ion-input>
@@ -26,6 +26,6 @@
       <ion-icon name="lock" item-left></ion-icon>
       <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
     </ion-item>
-    <button ion-button full type="submit" [disabled]="signupForm.invalid">Create Account</button>
+    <ion-button type="submit" expand="block" color="success" [disabled]="signupForm.invalid" >Salvar</ion-button>
   </form>
 </ion-content>
