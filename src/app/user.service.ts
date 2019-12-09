@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from 'firebase';
+import { User, firestore } from 'firebase';
 import { HTTP } from '@ionic-native/http/ngx';
 import { AngularFirestore, DocumentReference, AngularFirestoreCollection } from 'angularfire2/firestore';
 
@@ -13,8 +13,4 @@ export class UserService {
     public db: AngularFirestore, 
     private http: HTTP) {
      }
-
-  create(user: User): firebase.Promise<DocumentReference> {
-    return this.af.collection('/users').add(user);
-  }
 }

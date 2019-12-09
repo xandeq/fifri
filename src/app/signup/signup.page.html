@@ -9,7 +9,7 @@
     <ion-icon class="auth-icon" name="person-add" color="primary"></ion-icon>
   </h1>
 
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+  <form class="form" [formGroup]="validations_form"  (ngSubmit)="tryRegister(validations_form.value)">
     <ion-item>
       <ion-icon name="person" item-left></ion-icon>
       <ion-input type="text" placeholder="Nome" formControlName="name"></ion-input>
@@ -26,6 +26,15 @@
       <ion-icon name="lock" item-left></ion-icon>
       <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
     </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
     <ion-button type="submit" expand="block" color="success" [disabled]="signupForm.invalid" >Salvar</ion-button>
+    <label class="error-message">{{errorMessage}}</label>
+    <label class="success-message">{{successMessage}}</label>
   </form>
 </ion-content>

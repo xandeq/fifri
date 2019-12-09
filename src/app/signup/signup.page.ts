@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavController, NavParams, AlertController, LoadingController } from '@ionic/angular';
 import { UserService } from '../user.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-signup',
@@ -10,8 +11,21 @@ import { UserService } from '../user.service';
 })
 export class SignupPage implements OnInit {
   //userService: UserService;
-  signupForm: FormGroup;
   loading: LoadingController;
+
+  errorMessage: string = '';
+  successMessage: string = '';
+ 
+  validation_messages = {
+   'email': [
+     { type: 'required', message: 'Email is required.' },
+     { type: 'pattern', message: 'Enter a valid email.' }
+   ],
+   'password': [
+     { type: 'required', message: 'Password is required.' },
+     { type: 'minlength', message: 'Password must be at least 5 characters long.' }
+   ]
+ };
 
   constructor(
     private alertCtrl: AlertController,
@@ -22,13 +36,6 @@ export class SignupPage implements OnInit {
     public navParams: NavParams,
     public userService: UserService) {
     let emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-
-    this.signupForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegex)])]
-    })
 
   }
 
@@ -42,34 +49,21 @@ export class SignupPage implements OnInit {
   //   })
   // }
 
-  onSubmit(): void {
+  tryRegister(value) {
+    this.authService.registerUser(value)
+    .then(res => {
+      console.log(res);
+      this.errorMessage = "";
+      this.successMessage = "Your account has been created. Please log in.";
+    }, err => {
+      console.log(err);
+      this.errorMessage = err.message;
+      this.successMessage = "";
+    })
+  }
 
-    let loading = this.showLoading();
-    let formUser = this.signupForm.value;
-
-    this.authService.createAuthUser({
-      email: formUser.email,
-      password: formUser.password
-    }).then((authState: FirebaseAuthState) => {
-
-      delete formUser.password;
-      formUser.uid = authState.auth.uid;
-
-      this.userService.create(formUser)
-        .then(() => {
-          console.log('Usuario cadastrado!');
-          this.loading.dismiss();
-        }).catch((error: any) => {
-          console.log(error);
-          this.loading.dismiss();
-          this.showAlert(error);
-        });
-
-    }).catch((error: any) => {
-      console.log(error);
-      this.loading.dismiss();
-      this.showAlert(error);
-    });
+  goLoginPage(){
+    this.navCtrl.navigateBack('');
   }
 
   private showLoading() {
