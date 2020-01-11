@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NavController, NavParams, AlertController, LoadingController } from '@ionic/angular';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -15,6 +15,7 @@ export class SignupPage implements OnInit {
 
   errorMessage: string = '';
   successMessage: string = '';
+  validations_form: FormGroup;
  
   validation_messages = {
    'email': [
@@ -32,14 +33,31 @@ export class SignupPage implements OnInit {
     public authService: AuthenticationService,
     public formBuilder: FormBuilder,
     public loadingController: LoadingController,
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public userService: UserService) {
+    public navCtrl: NavController) {
     let emailRegex = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
   }
 
   ngOnInit() {
+ 
+    this.validations_form = this.formBuilder.group({
+      name: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required
+      ])),
+      username: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required
+      ])),
+      mail: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required
+      ]))
+    });
   }
 
   // onSubmit(): void {
@@ -50,7 +68,7 @@ export class SignupPage implements OnInit {
   // }
 
   tryRegister(value) {
-    this.authService.registerUser(value)
+    this.authService.registerUser(value.mail, value.password)
     .then(res => {
       console.log(res);
       this.errorMessage = "";

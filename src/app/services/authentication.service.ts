@@ -9,18 +9,18 @@ export class AuthenticationService {
 
   constructor() { }
 
-  registerUser(value){
+  registerUser(email, password){
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+      firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(
         res => resolve(res),
         err => reject(err))
     })
   }
 
-  loginUser(value){
+  loginUser(email, password){
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(value.email, value.password)
+      firebase.auth().signInWithEmailAndPassword(email, password)
       .then(
         res => resolve(res),
         err => reject(err))

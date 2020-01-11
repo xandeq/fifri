@@ -9,7 +9,7 @@
     <ion-icon class="auth-icon" name="person-add" color="primary"></ion-icon>
   </h1>
 
-  <form class="form" [formGroup]="validations_form"  (ngSubmit)="tryRegister(validations_form.value)">
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="tryRegister(validations_form.value)">
     <ion-item>
       <ion-icon name="person" item-left></ion-icon>
       <ion-input type="text" placeholder="Nome" formControlName="name"></ion-input>
@@ -33,7 +33,10 @@
         </div>
       </ng-container>
     </div>
-    <ion-button type="submit" expand="block" color="success" [disabled]="signupForm.invalid" >Salvar</ion-button>
+    <ion-button type="submit" expand="block" color="success" [disabled]="validations_form.invalid" >Salvar</ion-button>
+    <ion-button expand="block" routerLink="/login" color="info" routerDirection="root">
+      Login
+    </ion-button>
     <label class="error-message">{{errorMessage}}</label>
     <label class="success-message">{{successMessage}}</label>
   </form>
