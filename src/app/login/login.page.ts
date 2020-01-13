@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
   }
  
   goToRegisterPage(){
-    this.navCtrl.navigateForward('/register');
+    this.navCtrl.navigateForward('/signup');
   }
  
 }
