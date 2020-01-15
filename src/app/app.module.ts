@@ -21,6 +21,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 
 import * as firebase from 'firebase';
 import { LoginPage } from './login/login.page';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -37,6 +38,7 @@ firebase.initializeApp(environment.firebase);
     FormBuilder, 
     UserService,
     SplashScreen,
+    Geolocation,
     HTTP,
     AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

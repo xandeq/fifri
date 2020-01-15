@@ -21,6 +21,12 @@
   
   
 </ion-content>
+<div #map class="map"></div>
+<ion-button expand="block" (click)="initMap()">
+  <ion-icon name="locate" slot="start"></ion-icon>
+  Estou aqui!
+</ion-button>
+
 <ion-footer (click)="logout()">
   <ion-toolbar color="secondary">
     <ion-title>Sair</ion-title>
