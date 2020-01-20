@@ -3,39 +3,96 @@
     <ion-title>Acessar sua conta</ion-title>
   </ion-toolbar>
 </ion-header>
- 
-<ion-content padding>
-  <form class="form" [formGroup]="validations_form"  (ngSubmit)="loginUser(validations_form.value)">
- 
-    <ion-item>
-      <ion-label  position="floating" color="primary">E-mail</ion-label>
-      <ion-input type="text" formControlName="email"></ion-input>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.email">
-        <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
-          {{ validation.message }}
-        </div>
-      </ng-container>
+<ion-content padding class="animated fadeIn login auth-page">
+  <div class="theme-bg"></div>
+  <div class="auth-content">
+
+    <!-- Logo -->
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <div class="logo"></div>
+      <h4 no-margin>
+        <ion-text color="light" class="fw700">
+          Acesse sua conta e encontre seus amigos na balada
+        </ion-text>
+      </h4>
     </div>
- 
-    <ion-item>
-      <ion-label  position="floating" color="primary">Password</ion-label>
-      <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.password">
-        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
-          {{ validation.message }}
-        </div>
-      </ng-container>
+
+    <!-- Login form -->
+    <form [formGroup]="validations_form" class="list-form" (ngSubmit)="loginUser(validations_form.value)">
+      <ion-item class="ion-no-padding animated fadeInUp">
+        <ion-label position="floating">
+          <ion-icon name="mail" item-start></ion-icon>
+          Email/Login
+        </ion-label>
+        <ion-input color="secondary" type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <p ion-text class="text08"
+        *ngIf="validations_form.get('email').touched && validations_form.get('email').hasError('required')">
+        <ion-text color="warning">
+          Favor preencher
+        </ion-text>
+      </p>
+
+      <ion-item class="ion-no-padding animated fadeInUp">
+        <ion-label position="floating">
+          <ion-icon name="lock" item-start></ion-icon>
+          Senha
+        </ion-label>
+        <ion-input color="secondary" type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <p ion-text color="warning" class="text08"
+        *ngIf="validations_form.get('password').touched && validations_form.get('password').hasError('required')">
+        <ion-text color="warning">
+          Favor preencher
+        </ion-text>
+      </p>
+      <p text-right tappable (click)="forgotPass()" class="paz">
+        <ion-text color="light">
+          <strong>Forgot Pass?</strong>
+        </ion-text>
+      </p>
+  
+      <div>
+        <ion-button icon-left size="medium" expand="full" shape="round" color="dark" type="submit" [disabled]="!validations_form.valid" tappable>
+          <ion-icon name="log-in"></ion-icon>
+          Entrar
+        </ion-button>
+  
+        <p text-center>
+          <ion-text color="light">
+            Ou entre com:
+          </ion-text>
+        </p>
+  
+        <ion-grid class="btn-group">
+          <ion-row>
+            <ion-col size="6">
+              <ion-button shape="round" expand="full" color="secondary">
+                <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button shape="round" expand="full" color="secondary">
+                <ion-icon slot="icon-only" name="logo-twitter"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+  
+      </div>
+    </form>
+
+
+
+    <!-- Other links -->
+    <div class="ion-margin-top ion-text-center">
+      <span (click)="goToRegisterPage()" class="paz" tappable>
+        <ion-text color="light">
+          Novo por aqui? <strong>Cadastre-se</strong>
+        </ion-text>
+      </span>
     </div>
- 
-    <ion-button expand="block" class="submit-btn" type="submit" color="primary" [disabled]="!validations_form.valid">Entrar</ion-button>
- 
-    <label class="error-message">{{errorMessage}}</label>
-  </form>
-  <p class="go-to-register">
-    Não tem uma conta? <a (click)="goToRegisterPage()"> Cadastre-se</a>
-  </p>
+
+  </div>
+
 </ion-content>

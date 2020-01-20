@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { google } from '@google/maps';
 
 declare var google: any;
 
@@ -18,6 +19,7 @@ export class DashboardPage implements OnInit {
   private map: google.maps.Map;
   private mapOptions: google.maps.MapOptions;
 
+  usuario: any;
   userEmail: string;
   nome: string;
 
@@ -29,7 +31,7 @@ export class DashboardPage implements OnInit {
 
   private initMap(): void {
     this.geolocation.getCurrentPosition().then((resp) => {
-      console.log(resp);
+      //console.log(resp);
       let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
 
       this.mapOptions = {
@@ -52,6 +54,7 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.usuario);
     this.initMap();
     if (this.authService.userDetails()) {
       this.userEmail = this.authService.userDetails().email;
@@ -70,5 +73,10 @@ export class DashboardPage implements OnInit {
       .catch(error => {
         console.log(error);
       })
+      
+  }
+
+  getUsuario() {
+   this.usuario = this.authService.userDetails;
   }
 }
